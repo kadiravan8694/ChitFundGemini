@@ -7,171 +7,478 @@
     <script src="https://cdn.tailwindcss.com"></script>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
     <style>
-        /* Base font */
+        /* Base font for the body */
         body {
             font-family: 'Inter', sans-serif;
-            /* A richer, more vibrant gradient background */
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            /* Rich background gradient - Teal and Gold */
+            background: linear-gradient(135deg, #4facfe, #00f2fe); /* A vibrant teal gradient */
+            color: #333; /* Dark gray text */
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            overflow-x: hidden; /* Prevent horizontal scrolling */
+            padding: 1.5rem; /* Increased padding */
         }
 
-        /* Styling for the main calculator card */
-        .calculator-card {
-            background-color: rgba(255, 255, 255, 0.95); /* Slightly transparent white for a modern effect */
-            backdrop-filter: blur(10px); /* Frosted glass effect for supported browsers */
-            border: 1px solid rgba(255, 255, 255, 0.2); /* Subtle border */
+        /* Main calculator container styling */
+        .calculator-container {
+            margin: auto; /* Center the container */
+            width: 100%;
+            max-width: 480px; /* Set max-width to 480px as requested */
+            background-color: rgba(255, 255, 255, 0.98); /* Slightly less transparent */
+            backdrop-filter: blur(15px); /* Increased blur effect */
+            border-radius: 1.5rem; /* Rounded corners */
+            box-shadow: 0 15px 30px rgba(0, 0, 0, 0.25); /* Richer shadow */
+            padding: 2.5rem; /* Increased padding */
+            transition: all 0.4s ease; /* Smoother transitions */
+            border: 1px solid rgba(255, 255, 255, 0.6); /* Stronger border */
         }
 
-        /* Custom styles for disabled state to make it more visually clear */
-        .input-disabled {
-            background-color: #f3f4f6; /* Tailwind's gray-100 */
-            color: #9ca3af; /* Tailwind's gray-400 */
-            cursor: not-allowed;
-            opacity: 0.8;
+        /* Hover effect for the container - more pronounced */
+        .calculator-container:hover {
+            transform: translateY(-8px); /* Lift the container more */
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.3); /* Increased shadow on hover */
         }
+
+        /* Title styling */
+        .calculator-title {
+            font-size: 2.4rem; /* Increased font size */
+            font-weight: 700;
+            color: #1a202c; /* Very dark gray color */
+            margin-bottom: 2rem; /* Increased margin */
+            text-align: center;
+            letter-spacing: -0.03em; /* Tighter letter spacing */
+            text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.1); /* Subtle text shadow */
+        }
+
+        /* Form grid layout using flexbox for side-by-side arrangement */
+        .form-grid {
+            display: flex;
+            flex-direction: column; /* Stack items vertically by default */
+            gap: 1.5rem; /* Increased space between form groups */
+            margin-bottom: 2rem; /* Increased margin */
+        }
+
+        /* Container for label and input within the grid */
+        .form-group {
+            display: flex;
+            flex-direction: row; /* Arrange label and input in a row */
+            align-items: center; /* Vertically center label and input */
+            justify-content: space-between; /* Space out label and input */
+            width: 100%; /* Ensure full width */
+        }
+
+        /* Label styling */
+        .form-group label {
+            display: block;
+            font-size: 1.1rem; /* Increased font size */
+            font-weight: 500; /* Consistent font weight */
+            color: #2d3748; /* Darker label color */
+            flex-shrink: 0; /* Prevent label from shrinking */
+            margin-right: 1.5rem; /* Increased space between label and input */
+            transition: color 0.3s ease;
+            text-shadow: 0.5px 0.5px 1px rgba(255, 255, 255, 0.9); /* Lighter text shadow */
+            /* Ensure labels have enough space on smaller screens */
+            min-width: 120px; /* Minimum width for labels */
+        }
+
+        /* Label hover effect */
+        .form-group label:hover {
+            color: #d69e2e; /* Gold shade on hover */
+        }
+
+        /* Input field styling */
+        .form-group input {
+            padding: 0.8rem 1rem; /* Increased padding */
+            border-radius: 0.75rem; /* More rounded corners */
+            border: 1px solid #e2e8f0; /* Light border */
+            font-size: 1.05rem; /* Slightly increased font size */
+            background-color: #f7fafc; /* Very light background */
+            color: #1a202c; /* Very dark text color */
+            flex-grow: 1; /* Allow input to grow and take remaining space */
+            transition: all 0.3s ease;
+            box-shadow: inset 0 1px 3px rgba(0, 0, 0, 0.08); /* Subtle inner shadow */
+            max-width: 36%; /* Reduced input width by 40% (60% * 0.6 = 36%) */
+        }
+
+        /* Input focus styling */
+        .form-group input:focus {
+            outline: none;
+            border-color: #4facfe; /* Teal shade on focus */
+            box-shadow: 0 0 0 4px rgba(79, 170, 254, 0.3); /* Teal glow effect on focus */
+            background-color: #ffffff; /* White background on focus */
+        }
+
+        /* Placeholder text styling */
+        .form-group input::placeholder {
+            color: #a0aec0;
+            font-size: 1rem; /* Adjusted placeholder font size */
+        }
+
+        /* Button group styling */
+        .btn-group {
+            display: flex;
+            flex-wrap: wrap; /* Allow buttons to wrap on smaller screens */
+            justify-content: center; /* Center the buttons */
+            gap: 1rem; /* Increased space between buttons */
+            margin-top: 3rem; /* Increased margin */
+        }
+
+        /* Base button styling */
+        .btn {
+            padding: 0.9rem 1.8rem; /* Increased padding */
+            border-radius: 0.75rem; /* More rounded corners */
+            font-size: 1.1rem; /* Increased font size */
+            font-weight: 600;
+            color: #ffffff;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            border: none;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2); /* Richer shadow */
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 0.75rem; /* Increased space between icon and text */
+        }
+
+        /* Button hover effect */
+        .btn:hover {
+            transform: translateY(-5px); /* Lift button more on hover */
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.25); /* Increased shadow on hover */
+        }
+
+        /* Button active state styling */
+        .btn:active {
+            transform: translateY(0); /* Press down effect */
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1); /* Reduce shadow on active */
+        }
+
+        /* Primary button - Teal gradient */
+        .btn-primary {
+            background-image: linear-gradient(to bottom right, #00b4d8, #0077b6); /* Teal gradient */
+        }
+
+        /* Primary button hover gradient */
+        .btn-primary:hover {
+            background-image: linear-gradient(to bottom right, #0096c7, #023e7d); /* Darker teal gradient on hover */
+        }
+
+        /* Secondary button - Gold gradient */
+        .btn-secondary {
+            background-image: linear-gradient(to bottom right, #ffb703, #fb8500); /* Gold gradient */
+        }
+
+        /* Secondary button hover gradient */
+        .btn-secondary:hover {
+            background-image: linear-gradient(to bottom right, #fbc32d, #f7a072); /* Darker gold gradient on hover */
+        }
+
+        /* Tertiary button - Soft gray/blue */
+        .btn-tertiary {
+            background-image: linear-gradient(to bottom right, #cbd5e0, #a0aec0); /* Gray/Blue gradient */
+            color: #2d3748;
+        }
+
+        /* Tertiary button hover */
+        .btn-tertiary:hover {
+             background-image: linear-gradient(to bottom right, #a0aec0, #718096); /* Darker gray/blue on hover */
+             color: #1a202c;
+        }
+
+
+        /* Disabled button styling */
         .button-disabled {
-            background-color: #9ca3af; /* Tailwind's gray-400 */
-            color: #e5e7eb; /* Tailwind's gray-200 */
+            opacity: 0.6;
             cursor: not-allowed;
-            opacity: 0.7;
-            pointer-events: none; /* Ensure no interaction */
+            pointer-events: none; /* Prevent click events */
         }
 
-        /* Animation for result display */
-        @keyframes fadeInScaleUp {
-            from { opacity: 0; transform: translateY(20px) scale(0.95); }
-            to { opacity: 1; transform: translateY(0) scale(1); }
+        /* Result section styling */
+        #resultSection {
+            margin-top: 3rem; /* Increased margin */
+            padding: 1.8rem; /* Increased padding */
+            border-radius: 1.25rem; /* More rounded corners */
+            text-align: center;
+            background-color: rgba(255, 255, 255, 0.95); /* Adjusted background transparency */
+            border: 1px solid rgba(255, 255, 255, 0.5); /* Adjusted border */
+            box-shadow: 0 8px 16px rgba(0, 0, 0, 0.15); /* Richer shadow */
+            transition: all 0.3s ease;
+            display: none; /* Hide by default */
         }
+
+        /* Result section hover effect */
+        #resultSection:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2); /* Increased shadow on hover */
+        }
+
+        /* Container for result label and output */
+        .result-group {
+            display: flex;
+            flex-direction: row; /* Arrange label and output in a row */
+            align-items: center; /* Vertically center */
+            justify-content: space-between; /* Space out label and output */
+            width: 100%; /* Ensure full width */
+        }
+
+
+        /* Result section title styling */
+        #resultSection h2 {
+            font-size: 1.4rem; /* Adjusted font size */
+            color: #2d3748; /* Darker color */
+            font-weight: 600;
+            text-shadow: 0.5px 0.5px 1px rgba(255, 255, 255, 0.9); /* Lighter text shadow */
+            margin-bottom: 0; /* Remove bottom margin */
+            margin-right: 1.5rem; /* Increased right margin for spacing */
+            flex-shrink: 0; /* Prevent label from shrinking */
+             /* Ensure labels have enough space on smaller screens */
+            min-width: 120px; /* Minimum width for labels */
+        }
+
+        /* Result output text styling - styled like an input box */
+        #resultOutput {
+            font-size: 1.4rem; /* Increased font size */
+            font-weight: 700; /* Adjusted font weight */
+            color: #023e7d; /* Deep blue shade for result text */
+            letter-spacing: -0.01em; /* Adjusted letter spacing */
+            text-shadow: 0.5px 0.5px 1px rgba(0, 0, 0, 0.05); /* Subtle text shadow */
+            transition: all 0.3s ease;
+
+            /* Styles to make it look like an input box */
+            display: block; /* Make it a block element to take full width */
+            width: 100%; /* Take full width of its container */
+            padding: 0.8rem 1rem; /* Match input padding */
+            border-radius: 0.75rem; /* Match input border-radius */
+            border: 1px solid #e2e8f0; /* Match input border */
+            background-color: #f7fafc; /* Match input background color */
+            text-align: center; /* Center the text */
+            box-shadow: inset 0 1px 3px rgba(0, 0, 0, 0.08); /* Match input inner shadow */
+            flex-grow: 1; /* Allow output to grow */
+            max-width: 36%; /* Reduced output width by 40% */
+        }
+
+        /* Result output hover effect - subtle */
+        #resultOutput:hover {
+            transform: none; /* Remove transform on hover */
+            box-shadow: inset 0 1px 4px rgba(0, 0, 0, 0.1); /* Slightly increased shadow on hover */
+        }
+
+
+        /* Animation for result output */
         .result-animation {
-            animation: fadeInScaleUp 0.6s cubic-bezier(0.25, 0.46, 0.45, 0.94) forwards;
+            animation: fadeInUp 0.6s ease-out; /* Slightly longer animation */
         }
 
-        /* Style for the message box */
-        .message-box {
-            padding: 0.875rem 1.25rem; /* py-3.5 px-5 */
-            margin-bottom: 1.5rem; /* mb-6 */
-            border-radius: 0.5rem; /* rounded-lg */
-            font-size: 0.875rem; /* text-sm */
-            font-weight: 500; /* medium */
-            opacity: 0;
-            transform: translateY(-15px);
-            transition: opacity 0.3s ease-out, transform 0.3s ease-out;
-            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(25px); /* Adjusted starting position */
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
         }
+
+        /* Message box styling - more prominent */
+        .message-box {
+            padding: 1rem; /* Increased padding */
+            margin-bottom: 1.5rem; /* Increased margin */
+            border-radius: 0.75rem; /* More rounded corners */
+            font-size: 1rem; /* Increased font size */
+            font-weight: 600;
+            opacity: 0; /* Hidden by default */
+            transform: translateY(-20px); /* Adjusted starting position */
+            transition: opacity 0.4s ease-out, transform 0.4s ease-out; /* Smoother animation */
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.15); /* Richer shadow */
+            margin-top: 1rem; /* Adjusted margin */
+        }
+
+        /* Class to show the message box */
         .message-box.show {
             opacity: 1;
             transform: translateY(0);
         }
+
+        /* Error message box styling */
         .message-box-error {
-            background-color: #fff1f2; /* More subtle red */
-            color: #c81e1e;
-            border: 1px solid #ffccc7;
+            background-color: #fbdcdb; /* Lighter red */
+            color: #c53030; /* Darker red */
+            border: 1px solid #feb2b2; /* Red border */
         }
+
+        /* Success message box styling */
         .message-box-success {
-            background-color: #f0fdf4;
-            color: #15803d;
-            border: 1px solid #bbf7d0;
+            background-color: #c6f6d5; /* Lighter green */
+            color: #2f855a; /* Darker green */
+            border: 1px solid #9ae6b4; /* Green border */
         }
 
-        /* Enhanced button styles */
-        .btn {
-            display: inline-flex;
-            align-items: center;
-            justify-content: center;
-            gap: 0.5rem; /* space-x-2 */
-            font-weight: 600; /* semibold */
-            padding: 0.75rem 1rem; /* py-3 px-4 */
-            border-radius: 0.5rem; /* rounded-lg */
-            box-shadow: 0 1px 3px 0 rgba(0,0,0,.1), 0 1px 2px -1px rgba(0,0,0,.1); /* shadow-md */
-            transition: all 0.2s ease-in-out;
-        }
-        .btn:hover {
-            box-shadow: 0 4px 6px -1px rgba(0,0,0,.1), 0 2px 4px -2px rgba(0,0,0,.1); /* shadow-lg */
-            transform: translateY(-1px);
-        }
-        .btn:active {
-            transform: translateY(0px);
-            box-shadow: 0 1px 2px 0 rgba(0,0,0,.05); /* shadow-sm */
-        }
-        .btn-primary {
-            background-color: #4f46e5; /* indigo-600 */
-            color: white;
-        }
-        .btn-primary:hover {
-            background-color: #4338ca; /* indigo-700 */
-        }
-        .btn-secondary {
-            background-color: #f59e0b; /* amber-500 */
-            color: white;
-        }
-        .btn-secondary:hover {
-            background-color: #d97706; /* amber-600 */
-        }
-        .btn-tertiary {
-            background-color: #6b7280; /* gray-500 */
-            color: white;
-        }
-        .btn-tertiary:hover {
-            background-color: #4b5563; /* gray-600 */
+        /* Responsive adjustments for smaller screens (max-width: 768px) */
+        @media (max-width: 768px) {
+            .calculator-container {
+                padding: 1.8rem; /* Adjusted padding */
+            }
+
+            .form-grid {
+                gap: 1rem; /* Adjusted gap */
+                margin-bottom: 1.2rem; /* Adjusted margin */
+            }
+
+            .form-group label {
+                font-size: 1rem; /* Adjusted font size */
+                margin-right: 1rem; /* Adjusted margin */
+                 min-width: 100px; /* Adjusted minimum width for labels */
+            }
+
+            .form-group input {
+                font-size: 1rem; /* Adjusted font size */
+                padding: 0.6rem 0.8rem; /* Adjusted padding */
+                 max-width: 40%; /* Adjusted max width for input */
+            }
+
+            .btn-group {
+                gap: 0.8rem; /* Adjusted gap */
+            }
+
+            .btn {
+                font-size: 0.95rem; /* Adjusted font size */
+                padding: 0.6rem 1.2rem; /* Adjusted padding */
+            }
+
+            .calculator-title {
+                font-size: 2rem; /* Adjusted font size */
+                margin-bottom: 1.5rem; /* Adjusted margin */
+            }
+
+            #resultOutput {
+                font-size: 1.6rem; /* Adjusted font size */
+                 padding: 0.6rem 0.8rem; /* Adjusted padding */
+                 max-width: 40%; /* Adjusted max width for output */
+            }
+            #resultSection{
+                padding: 1.2rem; /* Adjusted padding */
+            }
+
+             #resultSection h2 {
+                font-size: 1.2rem; /* Adjusted font size */
+                 margin-right: 1rem; /* Adjusted margin */
+                 min-width: 100px; /* Adjusted minimum width for labels */
+            }
         }
 
-        /* Input field enhancements */
-        .form-input {
-            border: 1px solid #d1d5db; /* gray-300 */
-            transition: border-color 0.2s ease-in-out, box-shadow 0.2s ease-in-out;
-        }
-        .form-input:focus {
-            border-color: #4f46e5; /* indigo-600 */
-            box-shadow: 0 0 0 3px rgba(79, 70, 229, 0.3); /* indigo-500 with opacity */
-            outline: none;
+        /* Responsive adjustments for very small screens (max-width: 480px) */
+        @media (max-width: 480px) {
+             body {
+                 padding: 1rem; /* Adjusted padding */
+             }
+            .calculator-container {
+                padding: 1rem; /* Adjusted padding */
+                border-radius: 1rem; /* Adjusted border radius */
+                max-width: 100%; /* Allow container to take full width on very small screens */
+            }
+
+            .form-grid {
+                gap: 0.8rem; /* Adjusted gap */
+                margin-bottom: 1rem; /* Adjusted margin */
+            }
+
+            .form-group label {
+                 font-size: 0.9rem; /* Adjusted font size */
+                 margin-right: 0.8rem; /* Adjusted margin */
+                 min-width: 70px; /* Adjusted minimum width for labels */
+            }
+
+            .form-group input {
+                font-size: 0.9rem; /* Adjusted font size */
+                padding: 0.5rem 0.7rem; /* Adjusted padding */
+                 max-width: 50%; /* Adjusted max width for input */
+            }
+
+            .btn-group {
+                flex-direction: row; /* Keep buttons in a row */
+                flex-wrap: wrap; /* Allow wrapping if necessary */
+                justify-content: center; /* Center buttons */
+                gap: 0.3rem; /* Further reduced gap between buttons */
+            }
+            .btn{
+                width: auto; /* Allow buttons to size based on content */
+                flex-grow: 1; /* Allow buttons to grow to fill space */
+                font-size: 0.8rem; /* Further reduced font size */
+                padding: 0.3rem 0.6rem; /* Further reduced padding */
+            }
+            .calculator-title{
+                font-size: 1.8rem; /* Adjusted font size */
+                 margin-bottom: 1.2rem; /* Adjusted margin */
+            }
+            #resultSection{
+                padding: 1rem; /* Adjusted padding */
+                 margin-top: 2rem; /* Adjusted margin */
+            }
+            #resultSection h2 {
+                font-size: 1.1rem; /* Adjusted font size */
+                 margin-right: 0.8rem; /* Adjusted margin */
+                 min-width: 70px; /* Adjusted minimum width for labels */
+            }
+            #resultOutput{
+                font-size: 1.4rem; /* Adjusted font size */
+                 padding: 0.5rem 0.7rem; /* Adjusted padding */
+                 max-width: 50%; /* Adjusted max width for output */
+            }
         }
     </style>
 </head>
-<body class="min-h-screen flex items-center justify-center p-4 selection:bg-indigo-500 selection:text-white">
-    <div class="calculator-card shadow-2xl rounded-xl p-6 md:p-10 w-full max-w-md">
-        <h1 class="text-3xl sm:text-4xl font-bold text-center text-gray-800 mb-8">Chit Fund Calculator</h1>
+<body class="bg-gradient-to-br from-blue-100 to-purple-100 p-4 flex flex-col items-center justify-start">
+    <div class="calculator-container">
+        <h1 class="calculator-title">Chit Fund Calculator</h1>
 
         <div id="messageArea" class="message-box"></div>
 
-        <form id="calculatorForm" class="space-y-6">
-            <div>
-                <label for="netAmount" class="block text-sm font-medium text-gray-700 mb-1.5">Net Amount</label>
-                <input type="number" id="netAmount" name="netAmount" placeholder="e.g., 10000" class="form-input mt-1 block w-full px-4 py-3 rounded-lg shadow-sm focus:outline-none transition duration-150 ease-in-out">
+        <form id="calculatorForm">
+            <div class="form-grid">
+                <div class="form-group">
+                    <label for="netAmount">Net Amount</label>
+                    <input type="number" id="netAmount" name="netAmount" placeholder="e.g., 10000" class="form-input">
+                </div>
             </div>
 
-            <div>
-                <label for="membersCount" class="block text-sm font-medium text-gray-700 mb-1.5">Members Count</label>
-                <input type="number" id="membersCount" name="membersCount" placeholder="e.g., 10" min="1" step="1" class="form-input mt-1 block w-full px-4 py-3 rounded-lg shadow-sm focus:outline-none transition duration-150 ease-in-out">
+            <div class="form-grid">
+                 <div class="form-group">
+                    <label for="membersCount">Members Count</label>
+                    <input type="number" id="membersCount" name="membersCount" placeholder="e.g., 10" min="1" step="1" class="form-input">
+                </div>
             </div>
 
-            <div>
-                <label for="askedValue" class="block text-sm font-medium text-gray-700 mb-1.5">Asked Value (Amount Deducted)</label>
-                <input type="number" id="askedValue" name="askedValue" placeholder="e.g., 500" class="form-input mt-1 block w-full px-4 py-3 rounded-lg shadow-sm focus:outline-none transition duration-150 ease-in-out">
+            <div class="form-grid">
+                <div class="form-group">
+                    <label for="askedValue">Asked Value</label>
+                    <input type="number" id="askedValue" name="askedValue" placeholder="e.g., 500" class="form-input">
+                </div>
             </div>
 
-            <div class="grid grid-cols-1 sm:grid-cols-3 gap-4 pt-6">
-                <button type="button" id="calculateButton" class="btn btn-primary w-full">
-                    <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M16 4h2a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2h2"></path><rect x="8" y="2" width="8" height="4" rx="1" ry="1"></rect><path d="M12 12h.01"></path><path d="M12 17h.01"></path><path d="M17 12h.01"></path><path d="M17 17h.01"></path><path d="M7 12h.01"></path><path d="M7 17h.01"></path></svg>
+            <div class="btn-group">
+                <button type="button" id="calculateButton" class="btn btn-primary">
                     Calculate
                 </button>
-                <button type="button" id="editButton" class="btn btn-secondary w-full button-disabled" disabled>
-                    <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M17 3a2.828 2.828 0 1 1 4 4L7.5 20.5 2 22l1.5-5.5L17 3z"></path></svg>
+                <button type="button" id="editButton" class="btn btn-secondary button-disabled" disabled>
                     Edit
                 </button>
-                <button type="button" id="resetButton" class="btn btn-tertiary w-full">
-                     <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="23 4 23 10 17 10"></polyline><polyline points="1 20 1 14 7 14"></polyline><path d="M3.51 9a9 9 0 0 1 14.85-3.36L23 10M1 14l4.64 4.36A9 9 0 0 0 20.49 15"></path></svg>
+                <button type="button" id="resetButton" class="btn btn-tertiary">
                     Reset
                 </button>
             </div>
         </form>
 
-        <div id="resultSection" class="mt-10 pt-6 border-t border-gray-300 text-center" style="display: none;">
-            <h2 class="text-lg font-medium text-gray-600 mb-2">Amount per Member:</h2>
-            <p id="resultOutput" class="text-4xl sm:text-5xl font-bold text-indigo-600"></p>
+        <div id="resultSection" class="text-center">
+            <div class="result-group">
+                <h2>Result:</h2>
+                <p id="resultOutput" class="result-animation"></p>
+            </div>
         </div>
     </div>
 
     <script>
-        // DOM Elements
+        // Get references to DOM elements
         const netAmountInput = document.getElementById('netAmount');
         const membersCountInput = document.getElementById('membersCount');
         const askedValueInput = document.getElementById('askedValue');
@@ -183,19 +490,20 @@
         const messageArea = document.getElementById('messageArea');
         const calculatorForm = document.getElementById('calculatorForm');
 
-        // Input fields array for easier manipulation
+        // Array of input fields for easier iteration
         const inputs = [netAmountInput, membersCountInput, askedValueInput];
 
-        // Function to display messages
+        // Function to display messages (error or success)
         function showMessage(message, type = 'error') {
             messageArea.textContent = message;
-            messageArea.className = 'message-box show'; // Reset classes and add base
+            messageArea.className = 'message-box show'; // Add 'show' class to make it visible
+            // Add specific class for styling based on message type
             if (type === 'error') {
                 messageArea.classList.add('message-box-error');
             } else if (type === 'success') {
                 messageArea.classList.add('message-box-success');
             }
-            // Hide message after 4 seconds
+            // Hide the message after 4 seconds
             setTimeout(() => {
                 messageArea.classList.remove('show');
             }, 4000);
@@ -204,84 +512,91 @@
         // Function to hide messages immediately
         function hideMessage() {
             messageArea.classList.remove('show');
-            // Delay text clearing to allow fade-out animation
+            // Clear the message text after the transition
             setTimeout(() => {
                 if (!messageArea.classList.contains('show')) {
                     messageArea.textContent = '';
                 }
-            }, 300);
+            }, 200); // Wait for the transition to finish
         }
 
-        // Function to validate inputs
+        // Function to validate input values
         function validateInputs() {
-            hideMessage(); // Clear previous messages
+            hideMessage(); // Hide any previous messages
 
             const netAmount = parseFloat(netAmountInput.value);
-            const membersCount = parseInt(membersCountInput.value, 10); // Ensure base 10
+            const membersCount = parseInt(membersCountInput.value, 10);
             const askedValue = parseFloat(askedValueInput.value);
 
+            // Validate Net Amount
             if (netAmountInput.value.trim() === '' || isNaN(netAmount) || netAmount < 0) {
                 showMessage('Net Amount must be a valid positive number.');
-                netAmountInput.focus();
+                netAmountInput.focus(); // Focus on the invalid input field
                 return false;
             }
+            // Validate Members Count
             if (membersCountInput.value.trim() === '' || isNaN(membersCount) || membersCount <= 0 || !Number.isInteger(membersCount)) {
                 showMessage('Members Count must be a positive whole number (e.g., 1, 2, 3).');
                 membersCountInput.focus();
                 return false;
             }
+            // Validate Asked Value
             if (askedValueInput.value.trim() === '' || isNaN(askedValue) || askedValue < 0) {
                 showMessage('Asked Value must be a valid positive number.');
                 askedValueInput.focus();
                 return false;
             }
+            // Validate Asked Value is not greater than Net Amount
             if (askedValue > netAmount) {
                 showMessage('Asked Value cannot be greater than Net Amount.');
                 askedValueInput.focus();
                 return false;
             }
+
+            // If all inputs are valid, return the parsed values
             return { netAmount, membersCount, askedValue };
         }
 
-        // Function to handle calculation
+        // Function to perform the calculation
         function performCalculation() {
-            const validatedInputs = validateInputs();
+            const validatedInputs = validateInputs(); // Validate inputs first
             if (!validatedInputs) {
-                resultSection.style.display = 'none'; // Hide result if validation fails
+                resultSection.style.display = 'none'; // Hide result section if validation fails
                 return;
             }
 
             const { netAmount, membersCount, askedValue } = validatedInputs;
+            // Calculate the amount per member
             const result = (netAmount - askedValue) / membersCount;
 
-            // Format result to 2 decimal places, and use locale string for thousand separators
+            // Display the result, formatted to 2 decimal places
             resultOutput.textContent = result.toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 2 });
-            resultSection.style.display = 'block';
+            resultSection.style.display = 'block'; // Show the result section
 
-            // Apply animation
+            // Trigger the animation for the result output
             resultOutput.classList.remove('result-animation');
             void resultOutput.offsetWidth; // Trigger reflow to restart animation
             resultOutput.classList.add('result-animation');
 
-            // Disable inputs and calculate button, enable edit button
-            toggleInputState(true);
-            showMessage('Calculation successful!', 'success');
+            toggleInputState(true); // Disable inputs after calculation
+            showMessage('Calculation successful!', 'success'); // Show success message
         }
 
-        // Function to toggle input and button states
+        // Function to toggle the disabled state of inputs and buttons
         function toggleInputState(isDisabled) {
             inputs.forEach(input => {
-                input.disabled = isDisabled;
+                input.disabled = isDisabled; // Set disabled state for each input
                 if (isDisabled) {
-                    input.classList.add('input-disabled');
+                    input.classList.add('input-disabled'); // Add class for styling disabled inputs
                 } else {
-                    input.classList.remove('input-disabled');
+                    input.classList.remove('input-disabled'); // Remove class for enabled inputs
                 }
             });
 
-            calculateButton.disabled = isDisabled;
-            editButton.disabled = !isDisabled;
+            calculateButton.disabled = isDisabled; // Disable calculate button if inputs are disabled
+            editButton.disabled = !isDisabled; // Enable edit button if inputs is disabled
 
+            // Toggle button disabled classes for styling
             if (isDisabled) {
                 calculateButton.classList.add('button-disabled');
                 editButton.classList.remove('button-disabled');
@@ -291,40 +606,42 @@
             }
         }
 
-        // Function to handle edit action
+        // Function to enable editing of inputs
         function enableEditing() {
-            hideMessage();
+            hideMessage(); // Hide any messages
             toggleInputState(false); // Enable inputs
-            resultSection.style.display = 'none'; // Hide previous result
-            resultOutput.textContent = '';
-            netAmountInput.focus(); // Focus on the first input
+            resultSection.style.display = 'none'; // Hide the result section
+            resultOutput.textContent = ''; // Clear the result output
+            netAmountInput.focus(); // Focus on the first input field
         }
 
-        // Function to handle reset action
+        // Function to reset the calculator
         function resetCalculator() {
-            hideMessage();
-            calculatorForm.reset(); // Resets form fields
-            toggleInputState(false); // Ensure inputs are enabled
-            resultSection.style.display = 'none';
-            resultOutput.textContent = '';
-            netAmountInput.focus();
-            // Ensure edit button is disabled and calculate is enabled after reset
+            hideMessage(); // Hide any messages
+            calculatorForm.reset(); // Reset the form fields
+            toggleInputState(false); // Enable inputs
+            resultSection.style.display = 'none'; // Hide the result section
+            resultOutput.textContent = ''; // Clear the result output
+            netAmountInput.focus(); // Focus on the first input field
+            // Ensure edit button is disabled and calculate button is enabled after reset
             editButton.disabled = true;
             editButton.classList.add('button-disabled');
             calculateButton.disabled = false;
             calculateButton.classList.remove('button-disabled');
         }
 
-        // Event Listeners
+        // Add event listeners to buttons
         calculateButton.addEventListener('click', performCalculation);
         editButton.addEventListener('click', enableEditing);
         resetButton.addEventListener('click', resetCalculator);
 
-        // Allow Enter key to trigger calculation if inputs are focused
+        // Add event listeners to input fields to trigger calculation on Enter key press
         inputs.forEach(input => {
             input.addEventListener('keypress', function(event) {
+                // Check if the pressed key is Enter (key code 13)
                 if (event.key === 'Enter') {
                     event.preventDefault(); // Prevent default form submission
+                    // If the calculate button is not disabled, perform calculation
                     if (!calculateButton.disabled) {
                         performCalculation();
                     }
@@ -332,9 +649,7 @@
             });
         });
 
-        // Initial state setup
-        // Call reset to set initial button states and focus correctly
-        // Wrapped in DOMContentLoaded to ensure all elements are loaded before trying to focus
+        // Reset the calculator when the DOM is fully loaded
         document.addEventListener('DOMContentLoaded', () => {
             resetCalculator();
         });
